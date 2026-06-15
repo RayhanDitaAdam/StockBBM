@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSupabase } from '@/lib/supabaseClient';
+import { getDb } from '@/lib/db';
 
 // Haversine formula to calculate distance in km
 function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
@@ -18,66 +18,21 @@ function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = getSupabase();
     const { searchParams } = new URL(request.url);
     const clientLatStr = searchParams.get('lat');
     const clientLngStr = searchParams.get('lng');
     const clientFingerprint = request.headers.get('x-device-fingerprint');
 
-    // Fetch SPBUs from Supabase
-    const { data: spbus, error: spbusError } = await supabase
-      .from('spbus')
-      .select('*');
-
-    if (spbusError || !spbus) {
-      console.error('Error fetching SPBUs:', spbusError);
-      return NextResponse.json({ 
-        error: 'Failed to fetch SPBUs', 
-        details: spbusError?.message || spbusError || 'No data returned'
-      }, { status: 500 });
-    }
-
-    // Fetch reports created in the last 1 hour
-    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
-    const { data: reports, error: reportsError } = await supabase
-      .from('reports')
-      .select('*')
-      .gt('created_at', oneHourAgo);
-
-    if (reportsError || !reports) {
-      console.error('Error fetching reports:', reportsError);
-      return NextResponse.json({ 
-        error: 'Failed to fetch reports', 
-        details: reportsError?.message || reportsError || 'No data returned'
-      }, { status: 500 });
-    }
-
-    // Fetch confirmations for current user if clientFingerprint is provided
-    let confirmedReportIds = new Set<string>();
-    if (clientFingerprint) {
-      const { data: confirmations, error: confirmationsError } = await supabase
-        .from('confirmations')
-        .select('report_id')
-        .eq('device_fingerprint', clientFingerprint);
-
-      if (confirmationsError) {
-        console.error('Error fetching confirmations:', confirmationsError);
-      } else if (confirmations) {
-        confirmations.forEach((c) => {
-          if (c.report_id) {
-            confirmedReportIds.add(c.report_id);
-          }
-        });
-      }
-    }
+    const db = await getDb();
+    const { spbus, reports, confirmations } = db;
 
     const spbusWithStatus = spbus.map((spbu) => {
       // Find the latest active report for this SPBU
-      const spbuReports = reports.filter((r) => r.spbu_id === spbu.id);
+      const spbuReports = reports.filter((r) => r.spbuId === spbu.id);
       const latestReport =
         spbuReports.length > 0
           ? spbuReports.sort(
-              (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+              (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
             )[0]
           : null;
 
@@ -91,27 +46,19 @@ export async function GET(request: NextRequest) {
         }
       }
 
-      const hasConfirmed = latestReport ? confirmedReportIds.has(latestReport.id) : false;
+      let hasConfirmed = false;
+      if (latestReport && clientFingerprint) {
+        hasConfirmed = confirmations.some(
+          (c) => c.reportId === latestReport.id && c.deviceFingerprint === clientFingerprint
+        );
+      }
 
       return {
-        id: spbu.id,
-        name: spbu.name,
-        brand: spbu.brand,
-        address: spbu.address,
-        lat: spbu.lat,
-        lng: spbu.lng,
+        ...spbu,
         distanceKm: distanceKm !== null ? parseFloat(distanceKm.toFixed(2)) : null,
         activeReport: latestReport
           ? {
-              id: latestReport.id,
-              spbuId: latestReport.spbu_id,
-              queueStatus: latestReport.queue_status,
-              emptyBbm: latestReport.empty_bbm || [],
-              photoUrl: latestReport.photo_url || '',
-              qrisUrl: latestReport.qris_url || '',
-              deviceFingerprint: latestReport.device_fingerprint,
-              createdAt: latestReport.created_at,
-              confirmsCount: latestReport.confirms_count,
+              ...latestReport,
               hasConfirmed,
             }
           : null,

@@ -103,46 +103,62 @@
       "address": "Rest Area Tol Surabaya-Mojokerto KM 725A, Jetis, Kab. Mojokerto 61352",
       "lat": -7.3912,
       "lng": 112.5189
+    },
+    {
+      "id": "spbu-jakarta-1",
+      "name": "SPBU Pertamina 31.107.01 Samanhudi",
+      "brand": "Pertamina",
+      "address": "Jl. H. Samanhudi No.20, Pasar Baru, Sawah Besar, Kota Jakarta Pusat, DKI Jakarta 10710",
+      "lat": -6.1627,
+      "lng": 106.8322
+    },
+    {
+      "id": "spbu-pekanbaru-1",
+      "name": "SPBU Pertamina 14.281.21 Ababil",
+      "brand": "Pertamina",
+      "address": "Jl. Ababil No.10, Kp. Melayu, Kec. Sukajadi, Kota Pekanbaru, Riau 28122",
+      "lat": 0.5186,
+      "lng": 101.4398
+    },
+    {
+      "id": "spbu-bandung-1",
+      "name": "SPBU Pertamina 34.402.02 BKR Lingkar Selatan",
+      "brand": "Pertamina",
+      "address": "Jl. BKR No.362, Lingkar Selatan, Kec. Regol, Kota Bandung, Jawa Barat 40253",
+      "lat": -6.9378,
+      "lng": 107.6186
+    },
+    {
+      "id": "spbu-balikpapan-1",
+      "name": "SPBU Pertamina 64.761.05 DI Panjaitan",
+      "brand": "Pertamina",
+      "address": "Jl. DI Panjaitan, Gunung Sari Ulu, Kec. Balikpapan Tengah, Kota Balikpapan, Kalimantan Timur 76122",
+      "lat": -1.2464,
+      "lng": 116.843
+    },
+    {
+      "id": "spbu-aceh-1",
+      "name": "SPBU Pertamina 14.237.56 Simpang Kanan",
+      "brand": "Pertamina",
+      "address": "Jalan Lipat Kajang Atas, Kec. Simpang Kanan, Kab. Aceh Singkil, Aceh 24791",
+      "lat": 2.3789,
+      "lng": 98.0125
     }
   ],
   "reports": [
     {
-      "id": "111b13b8-8d24-45ba-b6d7-311a8ab43113",
-      "spbuId": "spbu-5",
-      "queueStatus": "red",
-      "emptyBbm": [
-        "Pertalite"
-      ],
-      "photoUrl": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"120\" viewBox=\"0 0 200 120\"><rect width=\"200\" height=\"120\" fill=\"%231e293b\"/><circle cx=\"100\" cy=\"60\" r=\"30\" fill=\"%233b82f6\" opacity=\"0.3\"/><rect x=\"92\" y=\"35\" width=\"16\" height=\"50\" fill=\"%23ef4444\" rx=\"2\"/><rect x=\"85\" y=\"25\" width=\"30\" height=\"10\" fill=\"%233b82f6\" rx=\"1\"/><rect x=\"70\" y=\"85\" width=\"60\" height=\"10\" fill=\"%23475569\"/><rect x=\"96\" y=\"42\" width=\"8\" height=\"10\" fill=\"white\"/><text x=\"100\" y=\"112\" font-size=\"10\" fill=\"white\" font-family=\"sans-serif\" text-anchor=\"middle\">BUKTI FISIK SPBU</text></svg>",
-      "qrisUrl": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"150\" height=\"150\" viewBox=\"0 0 100 100\"><rect width=\"100\" height=\"100\" fill=\"white\"/><rect x=\"10\" y=\"10\" width=\"30\" height=\"30\" fill=\"black\"/><rect x=\"15\" y=\"15\" width=\"20\" height=\"20\" fill=\"white\"/><rect x=\"60\" y=\"10\" width=\"30\" height=\"30\" fill=\"black\"/><rect x=\"65\" y=\"15\" width=\"20\" height=\"20\" fill=\"white\"/><rect x=\"10\" y=\"60\" width=\"30\" height=\"30\" fill=\"black\"/><rect x=\"15\" y=\"65\" width=\"20\" height=\"20\" fill=\"white\"/><rect x=\"42\" y=\"42\" width=\"16\" height=\"16\" fill=\"black\"/><rect x=\"47\" y=\"47\" width=\"6\" height=\"6\" fill=\"white\"/><rect x=\"75\" y=\"75\" width=\"15\" height=\"15\" fill=\"black\"/><rect x=\"60\" y=\"60\" width=\"10\" height=\"10\" fill=\"black\"/><rect x=\"50\" y=\"70\" width=\"10\" height=\"10\" fill=\"black\"/><rect x=\"70\" y=\"50\" width=\"10\" height=\"10\" fill=\"black\"/><text x=\"50\" y=\"93\" font-size=\"6\" text-anchor=\"middle\" fill=\"black\" font-family=\"monospace\">P2P DONASI</text></svg>",
-      "deviceFingerprint": "dev-63zvkqv8i-qkasrxnbe",
-      "createdAt": "2026-06-15T08:45:58.222Z",
-      "confirmsCount": 1
-    },
-    {
-      "id": "c9f71d1b-64a4-4bb4-a30e-ffd99b8d2fa5",
+      "id": "ba014bf2-da2e-4c08-8805-97719375e459",
       "spbuId": "spbu-3",
-      "queueStatus": "red",
+      "queueStatus": "green",
       "emptyBbm": [
         "Pertalite"
       ],
       "photoUrl": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"120\" viewBox=\"0 0 200 120\"><rect width=\"200\" height=\"120\" fill=\"%231e293b\"/><circle cx=\"100\" cy=\"60\" r=\"30\" fill=\"%233b82f6\" opacity=\"0.3\"/><rect x=\"92\" y=\"35\" width=\"16\" height=\"50\" fill=\"%23ef4444\" rx=\"2\"/><rect x=\"85\" y=\"25\" width=\"30\" height=\"10\" fill=\"%233b82f6\" rx=\"1\"/><rect x=\"70\" y=\"85\" width=\"60\" height=\"10\" fill=\"%23475569\"/><rect x=\"96\" y=\"42\" width=\"8\" height=\"10\" fill=\"white\"/><text x=\"100\" y=\"112\" font-size=\"10\" fill=\"white\" font-family=\"sans-serif\" text-anchor=\"middle\">BUKTI FISIK SPBU</text></svg>",
       "qrisUrl": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"150\" height=\"150\" viewBox=\"0 0 100 100\"><rect width=\"100\" height=\"100\" fill=\"white\"/><rect x=\"10\" y=\"10\" width=\"30\" height=\"30\" fill=\"black\"/><rect x=\"15\" y=\"15\" width=\"20\" height=\"20\" fill=\"white\"/><rect x=\"60\" y=\"10\" width=\"30\" height=\"30\" fill=\"black\"/><rect x=\"65\" y=\"15\" width=\"20\" height=\"20\" fill=\"white\"/><rect x=\"10\" y=\"60\" width=\"30\" height=\"30\" fill=\"black\"/><rect x=\"15\" y=\"65\" width=\"20\" height=\"20\" fill=\"white\"/><rect x=\"42\" y=\"42\" width=\"16\" height=\"16\" fill=\"black\"/><rect x=\"47\" y=\"47\" width=\"6\" height=\"6\" fill=\"white\"/><rect x=\"75\" y=\"75\" width=\"15\" height=\"15\" fill=\"black\"/><rect x=\"60\" y=\"60\" width=\"10\" height=\"10\" fill=\"black\"/><rect x=\"50\" y=\"70\" width=\"10\" height=\"10\" fill=\"black\"/><rect x=\"70\" y=\"50\" width=\"10\" height=\"10\" fill=\"black\"/><text x=\"50\" y=\"93\" font-size=\"6\" text-anchor=\"middle\" fill=\"black\" font-family=\"monospace\">P2P DONASI</text></svg>",
       "deviceFingerprint": "dev-63zvkqv8i-qkasrxnbe",
-      "createdAt": "2026-06-15T08:54:55.408Z",
-      "confirmsCount": 1
+      "createdAt": "2026-06-15T14:31:36.752Z",
+      "confirmsCount": 0
     }
   ],
-  "confirmations": [
-    {
-      "reportId": "111b13b8-8d24-45ba-b6d7-311a8ab43113",
-      "deviceFingerprint": "dev-63zvkqv8i-qkasrxnbe",
-      "createdAt": "2026-06-15T08:48:06.433Z"
-    },
-    {
-      "reportId": "c9f71d1b-64a4-4bb4-a30e-ffd99b8d2fa5",
-      "deviceFingerprint": "dev-63zvkqv8i-qkasrxnbe",
-      "createdAt": "2026-06-15T09:00:25.643Z"
-    }
-  ]
+  "confirmations": []
 }

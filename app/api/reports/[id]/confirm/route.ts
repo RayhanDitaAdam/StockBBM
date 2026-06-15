@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSupabase } from '@/lib/supabaseClient';
+import { getDb, saveDb, Confirmation } from '@/lib/db';
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -7,7 +7,6 @@ interface RouteParams {
 
 export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
-    const supabase = getSupabase();
     const { id: reportId } = await params;
     const deviceFingerprint = request.headers.get('x-device-fingerprint');
 
@@ -18,21 +17,12 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    // Verify report exists and is not expired (TTL 1 hour)
-    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
-    const { data: report, error: reportError } = await supabase
-      .from('reports')
-      .select('*')
-      .eq('id', reportId)
-      .gt('created_at', oneHourAgo)
-      .maybeSingle();
+    const db = await getDb();
+    const { reports, confirmations } = db;
 
-    if (reportError) {
-      console.error('Error fetching report:', reportError);
-      return NextResponse.json({ error: 'Failed to verify report' }, { status: 500 });
-    }
-
-    if (!report) {
+    // Find the target report
+    const reportIndex = reports.findIndex((r) => r.id === reportId);
+    if (reportIndex === -1) {
       return NextResponse.json(
         { error: 'Laporan tidak ditemukan atau sudah kadaluarsa (lebih dari 1 jam)' },
         { status: 404 }
@@ -40,71 +30,32 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     }
 
     // Anti-Fraud: Check if this device has already confirmed this specific report
-    const { data: existingConfirmation, error: confirmCheckError } = await supabase
-      .from('confirmations')
-      .select('id')
-      .eq('report_id', reportId)
-      .eq('device_fingerprint', deviceFingerprint)
-      .maybeSingle();
+    const alreadyConfirmed = confirmations.some(
+      (c) => c.reportId === reportId && c.deviceFingerprint === deviceFingerprint
+    );
 
-    if (confirmCheckError) {
-      console.error('Error checking confirmation existence:', confirmCheckError);
-      return NextResponse.json({ error: 'Failed to verify duplicate validation' }, { status: 500 });
-    }
-
-    if (existingConfirmation) {
+    if (alreadyConfirmed) {
       return NextResponse.json(
         { error: 'Lu udah memvalidasi keakuratan data ini sebelumnya, bre.' },
         { status: 400 }
       );
     }
 
-    // Insert confirmation record
-    const { error: insertConfirmError } = await supabase
-      .from('confirmations')
-      .insert({
-        report_id: reportId,
-        device_fingerprint: deviceFingerprint,
-      });
-
-    if (insertConfirmError) {
-      if (insertConfirmError.code === '23505') {
-        return NextResponse.json(
-          { error: 'Lu udah memvalidasi keakuratan data ini sebelumnya, bre.' },
-          { status: 400 }
-        );
-      }
-      console.error('Error inserting confirmation:', insertConfirmError);
-      return NextResponse.json({ error: 'Failed to record confirmation' }, { status: 500 });
-    }
-
-    // Increment confirms_count on the report
-    const { data: updatedReport, error: updateError } = await supabase
-      .from('reports')
-      .update({ confirms_count: report.confirms_count + 1 })
-      .eq('id', reportId)
-      .select()
-      .single();
-
-    if (updateError || !updatedReport) {
-      console.error('Error updating report confirms count:', updateError);
-      return NextResponse.json({ error: 'Failed to update validation count' }, { status: 500 });
-    }
-
-    // Map database snake_case columns back to camelCase for the client
-    const returnedReport = {
-      id: updatedReport.id,
-      spbuId: updatedReport.spbu_id,
-      queueStatus: updatedReport.queue_status,
-      emptyBbm: updatedReport.empty_bbm,
-      photoUrl: updatedReport.photo_url,
-      qrisUrl: updatedReport.qris_url,
-      deviceFingerprint: updatedReport.device_fingerprint,
-      createdAt: updatedReport.created_at,
-      confirmsCount: updatedReport.confirms_count,
+    // Add confirmation track
+    const newConfirmation: Confirmation = {
+      reportId,
+      deviceFingerprint,
+      createdAt: new Date().toISOString(),
     };
 
-    return NextResponse.json(returnedReport, { status: 200 });
+    db.confirmations.push(newConfirmation);
+    
+    // Increment confirmsCount on the report
+    db.reports[reportIndex].confirmsCount += 1;
+    
+    await saveDb(db);
+
+    return NextResponse.json(db.reports[reportIndex], { status: 200 });
   } catch (error) {
     console.error('Error in POST /api/reports/[id]/confirm:', error);
     return NextResponse.json(
