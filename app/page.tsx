@@ -122,8 +122,8 @@ export default function StockBBMDashboard() {
   
   // GPS Location Simulation State (Used for the Seeker map center)
   const [locationPreset, setLocationPreset] = useState<'mojokerto_kota' | 'mojokerto_ngoro' | 'mojokerto_trowulan' | 'custom'>('mojokerto_kota');
-  const [lat, setLat] = useState(-7.465000); // Mojokerto Kota Center
-  const [lng, setLng] = useState(112.433000);
+  const [lat, setLat] = useState(-7.481500); // SPBU Pertamina 54.613.01 Bypass (POM)
+  const [lng, setLng] = useState(112.428600);
   
   // Selected SPBU details (For Seeker side panel)
   const [selectedSpbuId, setSelectedSpbuId] = useState<string | null>('spbu-1');
@@ -164,6 +164,20 @@ export default function StockBBMDashboard() {
       }
     }
   }, [viewState, spbus, manualOverride, reportSpbuId]);
+
+  // Automatically snap reporter coordinates to the selected SPBU
+  useEffect(() => {
+    if (viewState === 'pengisi' && reportSpbuId && spbus.length > 0) {
+      const found = spbus.find(s => s.id === reportSpbuId);
+      if (found) {
+        if (lat !== found.lat || lng !== found.lng) {
+          setLat(found.lat);
+          setLng(found.lng);
+          setLocationPreset('custom');
+        }
+      }
+    }
+  }, [viewState, reportSpbuId, spbus, lat, lng]);
 
   // Fetch SPBUs from API based on simulated lat/lng
   const fetchSpbus = async (currentLat: number, currentLng: number) => {
@@ -228,18 +242,18 @@ export default function StockBBMDashboard() {
     }
   };
 
-  // Handle location presets
+  // Handle location presets (Centered directly on actual SPBUs for the prototype)
   const handleLocationPresetChange = (preset: 'mojokerto_kota' | 'mojokerto_ngoro' | 'mojokerto_trowulan' | 'custom') => {
     setLocationPreset(preset);
     if (preset === 'mojokerto_kota') {
-      setLat(-7.465000);
-      setLng(112.433000);
+      setLat(-7.481500); // SPBU 1 Bypass
+      setLng(112.428600);
     } else if (preset === 'mojokerto_ngoro') {
-      setLat(-7.578000);
-      setLng(112.610000);
+      setLat(-7.576800); // SPBU 4 Jasem Ngoro
+      setLng(112.618900);
     } else if (preset === 'mojokerto_trowulan') {
-      setLat(-7.550000);
-      setLng(112.380000);
+      setLat(-7.551200); // SPBU 7 Trowulan
+      setLng(112.378900);
     }
   };
 
@@ -1304,7 +1318,17 @@ export default function StockBBMDashboard() {
                   <MapComponent
                     spbus={spbus}
                     center={[lat, lng]}
-                    onSelectSpbu={(id) => setSelectedSpbuId(id)}
+                    onSelectSpbu={(id) => {
+                      setSelectedSpbuId(id);
+                      if (id) {
+                        const found = spbus.find(s => s.id === id);
+                        if (found) {
+                          setLat(found.lat);
+                          setLng(found.lng);
+                          setLocationPreset('custom');
+                        }
+                      }
+                    }}
                     selectedSpbuId={selectedSpbuId}
                     height="400px"
                   />
