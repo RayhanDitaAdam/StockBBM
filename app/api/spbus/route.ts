@@ -30,7 +30,10 @@ export async function GET(request: NextRequest) {
 
     if (spbusError || !spbus) {
       console.error('Error fetching SPBUs:', spbusError);
-      return NextResponse.json({ error: 'Failed to fetch SPBUs' }, { status: 500 });
+      return NextResponse.json({ 
+        error: 'Failed to fetch SPBUs', 
+        details: spbusError?.message || spbusError || 'No data returned'
+      }, { status: 500 });
     }
 
     // Fetch reports created in the last 1 hour
@@ -42,7 +45,10 @@ export async function GET(request: NextRequest) {
 
     if (reportsError || !reports) {
       console.error('Error fetching reports:', reportsError);
-      return NextResponse.json({ error: 'Failed to fetch reports' }, { status: 500 });
+      return NextResponse.json({ 
+        error: 'Failed to fetch reports', 
+        details: reportsError?.message || reportsError || 'No data returned'
+      }, { status: 500 });
     }
 
     // Fetch confirmations for current user if clientFingerprint is provided
