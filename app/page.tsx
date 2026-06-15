@@ -143,9 +143,11 @@ export default function StockBBMDashboard() {
   
   // Stateless Fingerprint ID
   const [deviceId, setDeviceId] = useState<string>('');
+  const [isMounted, setIsMounted] = useState<boolean>(false);
 
   // Generate / Load Device ID from LocalStorage
   useEffect(() => {
+    setIsMounted(true);
     let storedId = localStorage.getItem('stockbbm_device_id');
     if (!storedId) {
       storedId = 'dev-' + Math.random().toString(36).substring(2, 11) + '-' + Math.random().toString(36).substring(2, 11);
@@ -1437,10 +1439,10 @@ export default function StockBBMDashboard() {
                         <Box>
                           <Typography level="title-sm" color="neutral" sx={{ mb: 0.5 }}>DILAPORKAN PADA</Typography>
                           <Typography level="body-md" sx={{ fontWeight: 600 }}>
-                            {timeSince(selectedSpbu.activeReport.createdAt)}
+                            {isMounted ? timeSince(selectedSpbu.activeReport.createdAt) : '--'}
                           </Typography>
                           <Typography level="body-xs" color="neutral">
-                            Aktif sampai {new Date(new Date(selectedSpbu.activeReport.createdAt).getTime() + 60 * 60 * 1000).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })} (TTL 1 Jam)
+                            Aktif sampai {isMounted ? new Date(new Date(selectedSpbu.activeReport.createdAt).getTime() + 60 * 60 * 1000).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : '--:--'} (TTL 1 Jam)
                           </Typography>
                         </Box>
 
