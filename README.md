@@ -1,4 +1,4 @@
-<![CDATA[<div align="center">
+<div align="center">
 
 # ⛽ StockBBM
 
@@ -157,7 +157,7 @@ flowchart TD
     J -->|"Ya"| K["💳 Upload Foto QRIS E-Wallet"]
     J -->|"Tidak"| L["📤 Kirim Laporan"]
     K --> L
-    L --> M["✅ Laporan Terkirim!<br/>⏰ Aktif selama 1 jam"]
+    L --> M["✅ Laporan Terkirim!<br/>⏰ Laporan aktif 1 jam"]
 
     style A fill:#667eea,stroke:#764ba2,color:#fff
     style M fill:#11998e,stroke:#38ef7d,color:#fff
@@ -533,4 +533,3 @@ Distributed under the MIT License. See `LICENSE` for more information.
 *StockBBM — Karena antre BBM nggak harus buta informasi.*
 
 </div>
-]]>
