@@ -94,40 +94,33 @@ export default function MapComponent({
   // Helper to create pulsing user location icon with a visible street view person landmark
   const createUserIcon = () => {
     const html = `
-      <div style="position: relative; width: 34px; height: 34px;">
-        <!-- Pulsing accuracy circle -->
+      <div style="position: relative; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+        <!-- Pulsing outer ring -->
         <div style="
-          background-color: #3b82f6; 
-          width: 34px; 
-          height: 34px; 
+          background-color: rgba(59, 130, 246, 0.4); 
+          width: 54px; 
+          height: 54px; 
           border-radius: 50%; 
-          opacity: 0.35; 
           position: absolute; 
-          top: 0; 
-          left: 0; 
           animation: map-pulse 1.8s infinite ease-in-out;
           z-index: 1;
         "></div>
-        <!-- Solid marker with person icon inside -->
+        <!-- Solid background circle -->
         <div style="
           background-color: #3b82f6; 
-          width: 26px; 
-          height: 26px; 
+          width: 36px; 
+          height: 36px; 
           border-radius: 50%; 
-          border: 2px solid white; 
-          box-shadow: 0 2px 5px rgba(0,0,0,0.4); 
+          border: 3px solid white; 
+          box-shadow: 0 3px 8px rgba(0,0,0,0.5); 
           position: absolute; 
-          top: 4px; 
-          left: 4px; 
           z-index: 10;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: white;
         ">
-          <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="14" width="14" xmlns="http://www.w3.org/2000/svg">
-            <path d="M367.9 329.76c-4.62 5.3-9.78 10.1-15.9 13.65v22.94c66.52 9.34 112 28.05 112 49.65 0 30.93-93.12 56-208 56S48 446.93 48 416c0-21.6 45.48-40.3 112-49.65v-22.94c-6.12-3.55-11.28-8.35-15.9-13.65C58.87 345.34 0 378.05 0 416c0 53.02 114.62 96 256 96s256-42.98 256-96c0-37.95-58.87-70.66-144.1-86.24zM256 128c35.36 0 64-28.64 64-64s-28.64-64-64-64-64 28.64-64 64 28.64 64 64 64zm48 16c0-8.84-7.16-16-16-16h-64c-8.84 0-16 7.16-16 16v96H112c-8.84 0-16 7.16-16 16v32c0 8.84 7.16 16 16 16h64v128c0 8.84 7.16 16 16 16h64c8.84 0 16-7.16 16-16V304h64c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16h-96v-96z" />
-          </svg>
+          <!-- Big 👤 Emoji inside as a distinct person landmark -->
+          <span style="font-size: 20px; line-height: 1; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.2));">👤</span>
         </div>
       </div>
     `;
@@ -135,8 +128,8 @@ export default function MapComponent({
     return L.divIcon({
       html,
       className: 'user-leaflet-marker',
-      iconSize: [34, 34],
-      iconAnchor: [17, 17]
+      iconSize: [60, 60],
+      iconAnchor: [30, 30]
     });
   };
 
