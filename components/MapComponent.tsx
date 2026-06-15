@@ -184,7 +184,7 @@ export default function MapComponent({
         icon: createUserIcon(),
         zIndexOffset: 1000 // Always render above SPBU markers
       }).addTo(map);
-      userMarker.bindTooltip("<b>My Location</b>", { permanent: false, direction: 'top' });
+      userMarker.bindTooltip("<b>My Location</b>", { permanent: true, direction: 'top' });
       userMarkerRef.current = userMarker;
     }
   }, [center, zoom]);

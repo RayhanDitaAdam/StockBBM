@@ -683,8 +683,8 @@ export default function StockBBMDashboard() {
                               />
 
                               <Stack gap={1}>
-                                <Typography level="body-xs" sx={{ fontWeight: 800, color: 'success.solidBg', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
-                                  GPS Terdeteksi Otomatis
+                                <Typography level="body-xs" sx={{ fontWeight: 800, color: 'success.solidBg', letterSpacing: '0.5px', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                                  <FaCompass /> GPS Terdeteksi (Lokasi Anda: Di SPBU ini 📍)
                                 </Typography>
                                 
                                 <Typography level="h3" sx={{ fontSize: '1.3rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: 1 }}>
