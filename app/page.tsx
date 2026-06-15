@@ -451,7 +451,7 @@ export default function StockBBMDashboard() {
                     PENGISI (Lapor)
                   </Typography>
                   <Typography level="body-md" color="neutral" sx={{ px: 2 }}>
-                    Laporkan antrean & ketersediaan BBM di SPBU sekarang untuk membantu pengendara lain. Dapatkan tips donasi langsung via QRIS E-Wallet lu.
+                    Laporkan antrean & ketersediaan BBM di SPBU sekarang untuk membantu pengendara lain. Dapatkan tips donasi langsung via QRIS E-Wallet Anda
                   </Typography>
                 </CardContent>
                 <CardActions sx={{ justifyContent: 'center', mt: 2 }}>
@@ -1393,7 +1393,7 @@ export default function StockBBMDashboard() {
                       </Typography>
                       {selectedSpbu.distanceKm !== null && (
                         <Chip size="sm" variant="soft" color="neutral" sx={{ fontWeight: 600 }}>
-                          Jarak dari lu: {selectedSpbu.distanceKm} km {selectedSpbu.distanceKm > 50 && '(Di luar radius 50km)'}
+                          Jarak dari lokasi Anda: {selectedSpbu.distanceKm} km {selectedSpbu.distanceKm > 50 && '(Di luar radius 50km)'}
                         </Chip>
                       )}
                     </Box>
@@ -1638,8 +1638,9 @@ export default function StockBBMDashboard() {
               Kirim Donasi Sukarela P2P
             </Typography>
             <Typography level="body-sm" color="neutral" sx={{ mb: 3 }}>
-              Silahkan scan QRIS E-Wallet milik pelapor di bawah ini jika lu merasa info real-time yang diberikannya bermanfaat. 
-              **100% donasi masuk langsung ke rekening pelapor.**
+              Silakan scan QRIS E-Wallet milik pelapor di bawah ini jika Anda merasa info real-time yang diberikannya bermanfaat
+              <br />
+              **100% donasi masuk langsung ke rekening pelapor**
             </Typography>
 
             <Box
@@ -1677,7 +1678,7 @@ export default function StockBBMDashboard() {
                 Selesai / Tutup
               </Button>
               <Typography level="body-xs" color="neutral">
-                *Donasi bersifat sukarela. Terima kasih atas gotong-royong berkendaranya, bre!
+                *Donasi bersifat sukarela. Terima kasih atas gotong royong berkendaranya
               </Typography>
             </Stack>
           </ModalDialog>

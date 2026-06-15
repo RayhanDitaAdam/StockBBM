@@ -36,7 +36,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     if (alreadyConfirmed) {
       return NextResponse.json(
-        { error: 'Lu udah memvalidasi keakuratan data ini sebelumnya, bre.' },
+        { error: 'Anda sudah melakukan validasi keakuratan untuk laporan ini sebelumnya' },
         { status: 400 }
       );
     }

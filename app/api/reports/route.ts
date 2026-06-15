@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
         (THIRTY_MINUTES_MS - (now - new Date(recentReport.createdAt).getTime())) / (60 * 1000)
       );
       return NextResponse.json(
-        { error: `Lu baru aja ngirim laporan buat SPBU ini. Tunggu ${minutesLeft} menit lagi bre.` },
+        { error: `Anda baru saja mengirimkan laporan untuk SPBU ini. Silakan tunggu ${minutesLeft} menit lagi` },
         { status: 429 }
       );
     }
