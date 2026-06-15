@@ -170,14 +170,13 @@ export default function StockBBMDashboard() {
     if (viewState === 'pengisi' && reportSpbuId && spbus.length > 0) {
       const found = spbus.find(s => s.id === reportSpbuId);
       if (found) {
-        if (lat !== found.lat || lng !== found.lng) {
-          setLat(found.lat);
-          setLng(found.lng);
-          setLocationPreset('custom');
-        }
+        setLat(found.lat);
+        setLng(found.lng);
+        setLocationPreset('custom');
       }
     }
-  }, [viewState, reportSpbuId, spbus, lat, lng]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [viewState, reportSpbuId, spbus]);
 
   // Fetch SPBUs from API based on simulated lat/lng
   const fetchSpbus = async (currentLat: number, currentLng: number) => {
@@ -740,10 +739,11 @@ export default function StockBBMDashboard() {
                           {reportingSpbu && (
                             <Box sx={{ height: 180, width: '100%', borderRadius: '12px', overflow: 'hidden' }}>
                               <MapComponent
-                                spbus={[reportingSpbu]}
+                                spbus={spbus}
                                 center={[reportingSpbu.lat, reportingSpbu.lng]}
                                 zoom={15}
                                 height="100%"
+                                selectedSpbuId={reportingSpbu.id}
                               />
                             </Box>
                           )}
@@ -781,10 +781,11 @@ export default function StockBBMDashboard() {
                           {reportingSpbu ? (
                             <Box sx={{ height: 180, width: '100%', borderRadius: '12px', overflow: 'hidden' }}>
                               <MapComponent
-                                spbus={[reportingSpbu]}
+                                spbus={spbus}
                                 center={[reportingSpbu.lat, reportingSpbu.lng]}
                                 zoom={15}
                                 height="100%"
+                                selectedSpbuId={reportingSpbu.id}
                               />
                             </Box>
                           ) : (

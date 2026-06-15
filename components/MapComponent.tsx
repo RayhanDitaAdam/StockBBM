@@ -91,45 +91,39 @@ export default function MapComponent({
     });
   };
 
-  // Helper to create pulsing user location icon with a visible street view person landmark
+  // Helper to create small pulsing user location dot
   const createUserIcon = () => {
     const html = `
-      <div style="position: relative; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+      <div style="position: relative; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;">
         <!-- Pulsing outer ring -->
         <div style="
-          background-color: rgba(59, 130, 246, 0.4); 
-          width: 54px; 
-          height: 54px; 
+          background-color: rgba(59, 130, 246, 0.35); 
+          width: 28px; 
+          height: 28px; 
           border-radius: 50%; 
           position: absolute; 
           animation: map-pulse 1.8s infinite ease-in-out;
           z-index: 1;
         "></div>
-        <!-- Solid background circle -->
+        <!-- Small solid blue dot -->
         <div style="
           background-color: #3b82f6; 
-          width: 36px; 
-          height: 36px; 
+          width: 14px; 
+          height: 14px; 
           border-radius: 50%; 
-          border: 3px solid white; 
-          box-shadow: 0 3px 8px rgba(0,0,0,0.5); 
+          border: 2px solid white; 
+          box-shadow: 0 1px 4px rgba(0,0,0,0.4); 
           position: absolute; 
           z-index: 10;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        ">
-          <!-- Big 👤 Emoji inside as a distinct person landmark -->
-          <span style="font-size: 20px; line-height: 1; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.2));">👤</span>
-        </div>
+        "></div>
       </div>
     `;
 
     return L.divIcon({
       html,
       className: 'user-leaflet-marker',
-      iconSize: [60, 60],
-      iconAnchor: [30, 30]
+      iconSize: [28, 28],
+      iconAnchor: [14, 14]
     });
   };
 
@@ -152,12 +146,21 @@ export default function MapComponent({
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
+    // Create user location marker immediately on map init
+    const userMarker = L.marker(center, {
+      icon: createUserIcon(),
+      zIndexOffset: 1000 // Always render above SPBU markers
+    }).addTo(map);
+    userMarker.bindTooltip("<b>My Location</b>", { permanent: true, direction: 'top' });
+    userMarkerRef.current = userMarker;
+
     mapRef.current = map;
 
     // Clean up on unmount
     return () => {
       map.remove();
       mapRef.current = null;
+      userMarkerRef.current = null;
     };
   }, []);
 
@@ -172,13 +175,6 @@ export default function MapComponent({
     // Update user marker position
     if (userMarkerRef.current) {
       userMarkerRef.current.setLatLng(center);
-    } else {
-      const userMarker = L.marker(center, {
-        icon: createUserIcon(),
-        zIndexOffset: 1000 // Always render above SPBU markers
-      }).addTo(map);
-      userMarker.bindTooltip("<b>My Location</b>", { permanent: true, direction: 'top' });
-      userMarkerRef.current = userMarker;
     }
   }, [center, zoom]);
 
