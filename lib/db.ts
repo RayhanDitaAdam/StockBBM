@@ -34,7 +34,9 @@ export interface DatabaseSchema {
   confirmations: Confirmation[];
 }
 
-const DB_PATH = path.join(process.cwd(), 'data', 'stockbbm.json');
+const DB_PATH = process.env.VERCEL
+  ? path.join('/tmp', 'stockbbm.json')
+  : path.join(process.cwd(), 'data', 'stockbbm.json');
 
 // Pre-seeded SPBUs with real locations in Mojokerto
 const INITIAL_SPBUS: SPBU[] = [
