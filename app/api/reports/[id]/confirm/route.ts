@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabaseClient';
+import { getSupabase } from '@/lib/supabaseClient';
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -7,6 +7,7 @@ interface RouteParams {
 
 export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
+    const supabase = getSupabase();
     const { id: reportId } = await params;
     const deviceFingerprint = request.headers.get('x-device-fingerprint');
 

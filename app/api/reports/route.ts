@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabaseClient';
+import { getSupabase } from '@/lib/supabaseClient';
 
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabase();
     const deviceFingerprint = request.headers.get('x-device-fingerprint');
     
     if (!deviceFingerprint || typeof deviceFingerprint !== 'string' || deviceFingerprint.trim() === '') {
