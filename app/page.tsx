@@ -738,7 +738,7 @@ export default function StockBBMDashboard() {
                             </Sheet>
                           )}
 
-                          {reportingSpbu && (
+                          {reportingSpbu && isMounted && (
                             <Box sx={{ height: 180, width: '100%', borderRadius: '12px', overflow: 'hidden' }}>
                               <MapComponent
                                 spbus={spbus}
@@ -780,7 +780,7 @@ export default function StockBBMDashboard() {
                             </Select>
                           </FormControl>
 
-                          {reportingSpbu ? (
+                          {reportingSpbu && isMounted ? (
                             <Box sx={{ height: 180, width: '100%', borderRadius: '12px', overflow: 'hidden' }}>
                               <MapComponent
                                 spbus={spbus}
@@ -1318,23 +1318,27 @@ export default function StockBBMDashboard() {
                 
                 {/* Dynamically Loaded Leaflet Map */}
                 <Box sx={{ flex: 1, minHeight: 400, borderRadius: '8px', overflow: 'hidden' }}>
-                  <MapComponent
-                    spbus={spbus}
-                    center={[lat, lng]}
-                    onSelectSpbu={(id) => {
-                      setSelectedSpbuId(id);
-                      if (id) {
-                        const found = spbus.find(s => s.id === id);
-                        if (found) {
-                          setLat(found.lat);
-                          setLng(found.lng);
-                          setLocationPreset('custom');
+                  {isMounted ? (
+                    <MapComponent
+                      spbus={spbus}
+                      center={[lat, lng]}
+                      onSelectSpbu={(id) => {
+                        setSelectedSpbuId(id);
+                        if (id) {
+                          const found = spbus.find(s => s.id === id);
+                          if (found) {
+                            setLat(found.lat);
+                            setLng(found.lng);
+                            setLocationPreset('custom');
+                          }
                         }
-                      }
-                    }}
-                    selectedSpbuId={selectedSpbuId}
-                    height="400px"
-                  />
+                      }}
+                      selectedSpbuId={selectedSpbuId}
+                      height="400px"
+                    />
+                  ) : (
+                    <Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'background.level1' }} />
+                  )}
                 </Box>
                 
                 <Stack direction="row" gap={1.5} justifyContent="center" flexWrap="wrap" sx={{ mt: 1.5, width: '100%' }}>
@@ -1599,7 +1603,7 @@ export default function StockBBMDashboard() {
           <Typography level="body-xs" color="neutral">
             © 2026 StockBBM crowdsourcing monitor. Desain minimalis, bebas fraud & stateless.
           </Typography>
-          {deviceId && (
+          {isMounted && deviceId && (
             <Card
               variant="soft"
               sx={{
